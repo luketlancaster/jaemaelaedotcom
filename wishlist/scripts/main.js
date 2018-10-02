@@ -14,7 +14,6 @@ $.get(url, function (data) {
             'purchased': item.gsx$purchased.$t
         })
     });
-    // console.log(items);
 })
 
 function appendToDom(element) {
@@ -32,4 +31,3 @@ function togglePurchased(event) {
         item.classList.toggle('hidden');
     }
 }
-
