@@ -1,0 +1,23 @@
+body {
+    font-family: Verdana, Geneva, sans-serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+ul {
+    list-style: none;
+}
+
+.hidden {
+    display: none;
+}
+
+.button_container {
+    text-align: center;
+}
+
+button {
+    font-size: 1.25em;
+    border-radius: 3px;
