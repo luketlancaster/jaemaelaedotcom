@@ -1,27 +1,25 @@
-var wishList = JSON.parse(localStorage.getItem("jesslist"));
-var wishList = undefined;
 let toggleButton = document.getElementById('toggleButton');
-
-if (wishList) {
-    wishList = _.orderBy(wishList, ['purchased'], ['asc']);
-    wishList.forEach(appendToDom);
-}
 
 toggleButton.addEventListener('click', togglePurchased);
 
-$.get('./main.php', function(data) {
-    if (wishList != data) {
-        localStorage.setItem('jesslist', data);
-        data = JSON.parse(data);
-        $('#ul').text('');
-        data = _.orderBy(data, ['purchased'], ['asc']);
-        data.forEach(appendToDom);
-    }
-});
+// Specific to the wishlist spredsheet. Won't work with others :/
+let url = 'https://spreadsheets.google.com/feeds/list/11_IF6m6s-oHl4Mq0xLWJ5NYAfh8S1VJEkzWqzMkv2Lw/od6/public/full?alt=json';
+
+$.get(url, function (data) {
+    data.feed.entry.forEach(item => {
+        console.log(item.gsx$displayname.$t)
+        appendToDom({
+            'url': item.gsx$url.$t,
+            'displayName': item.gsx$displayname.$t,
+            'purchased': item.gsx$purchased.$t
+        })
+    });
+    // console.log(items);
+})
 
 function appendToDom(element) {
     var del = '<del>';
-    var link = '<li class="item"><a target="_blank" href="' + element.url  + '">' + element.displayname  + '</a></li>';
+    var link = '<li class="item"><a target="_blank" href="' + element.url  + '">' + element.displayName  + '</a></li>';
     if (element.purchased === '1') {
         link = del + link + '</del>';
     }
@@ -34,3 +32,4 @@ function togglePurchased(event) {
         item.classList.toggle('hidden');
     }
 }
+
