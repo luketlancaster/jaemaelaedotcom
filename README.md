@@ -1,5 +1,3 @@
-# Wahoo! Here's a Site
+# Thanks for visiting!
 
-It's pretty cool, right?
-
-Go checkout the [wishlist](wishlist)!
+# Go checkout the [Wishlist](wishlist)!
