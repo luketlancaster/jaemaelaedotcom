@@ -2,6 +2,8 @@
 const url = 'https://spreadsheets.google.com/feeds/list/11_IF6m6s-oHl4Mq0xLWJ5NYAfh8S1VJEkzWqzMkv2Lw/od6/public/full?alt=json';
 
 $.get(url, function (data) {
+    let date = new Date(data.feed.updated.$t)
+    $('#date').text(`Last Updated: ${date.toLocaleDateString()}`);
     data.feed.entry.forEach(item => {
         // BIZ RULE: don't display purchased items
         if (!item.gsx$purchased.$t) {

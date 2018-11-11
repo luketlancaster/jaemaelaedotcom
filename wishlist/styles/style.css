@@ -6,6 +6,12 @@ h1 {
     text-align: center;
 }
 
+h6 {
+    text-align: center;
+    color: grey;
+    margin: 0;
+}
+
 ul {
     list-style: none;
 }
