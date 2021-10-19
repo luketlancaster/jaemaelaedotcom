@@ -1,30 +1,35 @@
-// Specific to the wishlist spredsheet. Won't work with others :/
-const url = 'https://spreadsheets.google.com/feeds/list/11_IF6m6s-oHl4Mq0xLWJ5NYAfh8S1VJEkzWqzMkv2Lw/od6/public/full?alt=json';
+const url =
+  "https://opensheet.vercel.app/11_IF6m6s-oHl4Mq0xLWJ5NYAfh8S1VJEkzWqzMkv2Lw/birthday";
 
-$.get(url, function (data) {
-    let date = new Date(data.feed.updated.$t)
-    $('#date').text(`Last Updated: ${date.toLocaleDateString()}`);
-    data.feed.entry.forEach(item => {
-        // BIZ RULE: don't display purchased items
-        if (!item.gsx$purchased.$t) {
-            appendToDom({
-                'url': item.gsx$url.$t,
-                'displayName': item.gsx$displayname.$t,
-                'purchased': item.gsx$purchased.$t,
-                'priority': item.gsx$priority.$t
-            })
-        }
-    });
-})
+// $.get(url, function (data) {
+//   let date = new Date(data.feed.updated.$t);
+//   $("#date").text(`Last Updated: ${date.toLocaleDateString()}`);
+//   data.feed.entry.forEach((item) => {
+//     // BIZ RULE: don't display purchased items
+//     if (!item.gsx$purchased.$t) {
+//       appendToDom({
+//         url: item.gsx$url.$t,
+//         displayName: item.gsx$displayname.$t,
+//         purchased: item.gsx$purchased.$t,
+//         priority: item.gsx$priority.$t,
+//       });
+//     }
+//   });
+// });
 
-function appendToDom(element) {
-    var link = `
+fetch(url)
+  .then((res) => res.json())
+  .then((data) => {
+    data.forEach((row) => appendToDom(row));
+  });
+
+const appendToDom = (element) => {
+  if (element.purchased) return;
+  let link = `
         <li class="item">
-            <a target="_blank" href="${element.url}">${element.displayName}</a>
-            <p class="priority">${element.priority}</p>
+            <a target="_blank" href="${element.url}">${element.display_name}</a>
+            <p class="priority">${element.priority ? element.priority : ""}</p>
         </li>`;
-    if (element.purchased === '1') {
-        link = `<del>${link}</del>`;
-    }
-    $('#ul').append(link);
-}
+
+  $("#ul").append(link);
+};
